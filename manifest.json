@@ -1,0 +1,32 @@
+{
+    "manifest_version": 4,
+    "type": "extension",
+    "name": "PluginInstaller",
+    "slug": "plugininstaller",
+    "description": "URL Schemes 插件安装器",
+    "version": "0.0.1",
+    "authors": [
+        {
+            "name": "xinyihl",
+            "link": "https://github.com/xinyihl"
+        }
+    ],
+    "dependencies": [
+        "protocio"
+    ],
+    "repository": {
+        "repo": "xinyihl/LiteLoaderQQNT-PluginInstaller",
+        "branch": "main",
+        "release": {
+            "tag": "v0.0.1",
+            "file": "Plugininstaller-release.zip"
+        }
+    },
+    "platform": [
+        "win32"
+    ],
+    "injects": {
+        "main": "./src/main.js",
+        "preload": "./src/preload.js"
+    }
+}
