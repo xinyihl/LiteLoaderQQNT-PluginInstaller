@@ -4,7 +4,7 @@
     "name": "PluginInstaller",
     "slug": "plugininstaller",
     "description": "URL Schemes 插件安装器",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "authors": [
         {
             "name": "xinyihl",
@@ -18,7 +18,7 @@
         "repo": "xinyihl/LiteLoaderQQNT-PluginInstaller",
         "branch": "main",
         "release": {
-            "tag": "v0.0.1",
+            "tag": "v0.0.2",
             "file": "Plugininstaller-release.zip"
         }
     },
