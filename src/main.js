@@ -19,9 +19,8 @@ function openInstallWindow() {
     width: 600,
     height: 200,
     webPreferences: {
-      nodeIntegration: false,
-      contextIsolation: true,
-      additionalArguments: ["--fetch-schemes=local"],
+      nodeIntegration: true,
+      contextIsolation: false,
       devTools: true,
       plugins: true,
       sandbox: true,

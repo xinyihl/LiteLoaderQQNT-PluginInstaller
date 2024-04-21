@@ -11,8 +11,8 @@ window.onload = async () => {
     const downloadtemp = JSON.parse(r2.str);
 
     downloadurl = downloadtemp.url
-      ? downloadtemp.assets[0].browser_download_url   
-      : `https://github.com/${plugin.repository.repo}/archive/refs/heads/${plugin.repository.branch}.zip`;
+      ? "https://ghproxy.net/" + downloadtemp.assets[0].browser_download_url   
+      : `https://ghproxy.net/https://github.com/${plugin.repository.repo}/archive/refs/heads/${plugin.repository.branch}.zip`;
 
     plugininstaller.WindowShow();
   } catch (error) {
@@ -22,10 +22,11 @@ window.onload = async () => {
 
 //todo 获取插件图片
 function init(plugin) {
+  const icon = plugin.icon ? `https://ghproxy.net/https://raw.githubusercontent.com/${plugin.repository.repo}/${plugin.repository.branch}/${plugin.icon}` : "default_icon.png"
   const temp = `
   <div>
       <div>
-          <div class="icon"><img src="default_icon.png"></div>
+          <div class="icon"><img src="${icon}"></div>
           <div>
               <div>
                   <span class="name" title="${plugin.name}">${plugin.name}</span>
