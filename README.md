@@ -4,7 +4,7 @@
 - 通过 `URL Schemes` 安装插件
 
 > URL Schemes 链接示例：   
-[llqqnt://plugininstaller/xinyihl/LiteLoaderQQNT-PluginInstaller/main/manifest.json](llqqnt://plugininstaller/xinyihl/LiteLoaderQQNT-PluginInstaller/main/manifest.json)
+<a href="llqqnt://plugininstaller/xinyihl/LiteLoaderQQNT-PluginInstaller/main/manifest.json">llqqnt://plugininstaller/xinyihl/LiteLoaderQQNT-PluginInstaller/main/manifest.json</a>
 
 ### 使用方法
 1. `git clone` 或 `下载zip文件` 解压

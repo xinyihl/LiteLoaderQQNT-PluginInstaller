@@ -1,10 +1,11 @@
 const { ipcMain, app, shell, BrowserWindow } = require("electron");
 const { request, install } = require("./api.js");
 const path = require("path");
-let plugin_url = "https://ghproxy.net/https://raw.githubusercontent.com/";
+let plugin_url = "";
 
 app.whenReady().then(() => {
   LiteLoader.api.registerUrlHandler("plugininstaller", (rest, url) => {
+    plugin_url = "https://ghproxy.net/https://raw.githubusercontent.com/";
     plugin_url += rest.join("/");
     openInstallWindow();
   });
