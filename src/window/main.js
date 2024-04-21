@@ -10,9 +10,9 @@ window.onload = async () => {
     const r2 = await plugininstaller.getWebRequest(`https://api.github.com/repos/${plugin.repository.repo}/releases/latest`)
     const downloadtemp = JSON.parse(r2.str);
 
-    downloadurl = plugin.repository.release.file
-      ? downloadtemp.assets[0].browser_download_url
-      : `https://ghproxy.net/https://github.com/${plugin.repository.repo}/archive/refs/tags/${plugin.repository.release.tag}.zip`;
+    downloadurl = downloadtemp.url
+      ? downloadtemp.assets[0].browser_download_url   
+      : `https://github.com/${plugin.repository.repo}/archive/refs/heads/${plugin.repository.branch}.zip`;
 
     plugininstaller.WindowShow();
   } catch (error) {
@@ -25,7 +25,7 @@ function init(plugin) {
   const temp = `
   <div>
       <div>
-          <div class="icon"><img src=""></div>
+          <div class="icon"><img src="default_icon.png"></div>
           <div>
               <div>
                   <span class="name" title="${plugin.name}">${plugin.name}</span>
