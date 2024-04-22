@@ -27,6 +27,7 @@
     ],
     "injects": {
         "main": "./src/main.js",
-        "preload": "./src/preload.js"
+        "preload": "./src/preload.js",
+        "renderer": "./src/renderer.js"
     }
 }

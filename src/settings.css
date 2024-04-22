@@ -1,0 +1,44 @@
+.plugininstaller .input-text {
+    align-self: normal;
+    height: 24px;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0%;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+    margin-right: 16px;
+    margin-left: 16px;
+    transition-behavior: normal;
+    transition-duration: 100ms;
+    transition-timing-function: ease-out;
+    transition-delay: 0s;
+    transition-property: all;
+    padding-left: 5px;
+    background-color: var(--overlay_active);
+    color: var(--text_primary);
+}
+
+.plugininstaller .ops-btns {
+    display: flex;
+    margin-right: 16px;
+}
+
+.plugininstaller .vertical-list-item.title {
+    margin-left: 16px;
+}
+
+.plugininstaller .vertical-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 12px 0px;
+}
+
+.plugininstaller .secondary-text {
+    color: var(--text_secondary);
+    font-size: min(var(--font_size_2), 16px);
+    line-height: min(var(--line_height_2), 22px);
+    margin-top: 4px;
+}
