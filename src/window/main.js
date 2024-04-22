@@ -1,18 +1,19 @@
-let downloadurl
+var dowload_tag = false
 window.onload = async () => {
   try {
-
-    const r1 = await plugininstaller.getWindowInitData();
-    const plugin = JSON.parse(r1.str);
+    const plugin = await plugininstaller.WindowInit();
 
     init(plugin);
 
-    const r2 = await plugininstaller.getWebRequest(`https://api.github.com/repos/${plugin.repository.repo}/releases/latest`)
-    const downloadtemp = JSON.parse(r2.str);
-
-    downloadurl = downloadtemp.url
-      ? "https://ghproxy.net/" + downloadtemp.assets[0].browser_download_url   
-      : `https://ghproxy.net/https://github.com/${plugin.repository.repo}/archive/refs/heads/${plugin.repository.branch}.zip`;
+    const dowloadTagProgess = document.querySelector("#dowloadTagProgess")
+    const dowloadTagText = document.querySelector("#dowloadTagText")
+    
+    plugininstaller.onUpdateInfo((tag) => {
+      dowloadTagText.textContent = tag.text;
+      if(tag.progressData){
+        dowloadTagProgess.value = tag.progressData.percentage;
+      }
+    })
 
     plugininstaller.WindowShow();
   } catch (error) {
@@ -20,7 +21,6 @@ window.onload = async () => {
   }
 }
 
-//todo 获取插件图片
 function init(plugin) {
   const icon = plugin.icon ? `https://ghproxy.net/https://raw.githubusercontent.com/${plugin.repository.repo}/${plugin.repository.branch}/${plugin.icon}` : "default_icon.png"
   const temp = `
@@ -40,10 +40,12 @@ function init(plugin) {
           <span>版本：${plugin.version}</span>
           <span>开发：${plugin.authors[0].name}</span>
       </div>
+      <progress id="dowloadTagProgess"" max="100" value="0"></progress>
       <div class="button">
+          <span id="dowloadTagText"></span>
           <button id="install" type="button">安装</button>
           <button id="more" type="button">详情</button>
-          <button id="quit" type="button">取消</button>
+          <button id="quit" type="button">关闭</button>
       </div>
   </div>
   `;
@@ -51,16 +53,22 @@ function init(plugin) {
 
   document.querySelector(".app").appendChild(doc.querySelector("div"));
 
-  document.getElementById("install").addEventListener("click", () => {
-      plugininstaller.installPlugin(downloadurl, plugin.slug)
+  document.querySelector("#install").addEventListener("click", () => {
+    if(!dowload_tag){
+      dowload_tag = true;
+      document.querySelector("#install").disabled = true;
+      document.querySelector("#dowloadTagProgess").style.display = "block";
+      document.querySelector("#dowloadTagText").style.display = "block";
+      plugininstaller.installPlugin();
+    }
   });
 
-  document.getElementById("more").addEventListener("click", () => {
+  document.querySelector("#more").addEventListener("click", () => {
     const link = "https://github.com/" + plugin.repository.repo;
     plugininstaller.openWeb(link);
   });
 
-  document.getElementById("quit").addEventListener("click", () => {
+  document.querySelector("#quit").addEventListener("click", () => {
     plugininstaller.close();
   });
 }

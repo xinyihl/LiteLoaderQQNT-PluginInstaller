@@ -4,11 +4,13 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-      "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "xinyihl",
     "license": "ISC",
     "dependencies": {
-      "node-stream-zip": "^1.15.0"
+        "node-fetch": "^2.7.0",
+        "node-stream-zip": "^1.15.0",
+        "progress-stream": "^2.0.0"
     }
-  }
+}

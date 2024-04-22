@@ -7,11 +7,12 @@
 <a href="llqqnt://plugininstaller/xinyihl/LiteLoaderQQNT-PluginInstaller/main/manifest.json">llqqnt://plugininstaller/xinyihl/LiteLoaderQQNT-PluginInstaller/main/manifest.json</a>
 
 ### 使用方法
-1. `git clone` 或 `下载zip文件` 解压
+1. `下载zip文件` 解压
 2. 将文件夹移动至 `LiteLoaderQQNT数据目录/plugins/` 下面
 3. 重启QQNT即可
 
 ### 注意
+- `git clone` 的用户还需要执行 `npm install`
 - 本插件需要 [Protocio](https://github.com/PRO-2684/protocio) 插件
 
 ### 鸣谢
