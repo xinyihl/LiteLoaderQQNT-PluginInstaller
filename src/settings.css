@@ -16,6 +16,7 @@
     transition-delay: 0s;
     transition-property: all;
     padding-left: 5px;
+    padding-right: 5px;
     background-color: var(--overlay_active);
     color: var(--text_primary);
 }

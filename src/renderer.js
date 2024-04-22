@@ -14,7 +14,7 @@ export const onSettingWindowCreated = async view => {
 
         button.addEventListener("click", () => {
             const url = document.querySelector(".plugininstaller-url").value;
-            var reg=/^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/;
+            var reg=/^https:\/\/raw\.githubusercontent\.com\/.*$/; 
             if(!reg.test(url)) {
                 document.querySelector(".input-text.plugininstaller-url").value = "链接格式错误";
                 return;
