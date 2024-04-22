@@ -1,10 +1,11 @@
 # LiteLoaderQQNT-PluginInstaller
 
 ### 功能
-- 通过 `URL Schemes` 安装插件
+- 通过 `URL Schemes` 安装插件  
 
 > URL Schemes 链接示例：   
-<a href="llqqnt://plugininstaller/xinyihl/LiteLoaderQQNT-PluginInstaller/main/manifest.json">llqqnt://plugininstaller/xinyihl/LiteLoaderQQNT-PluginInstaller/main/manifest.json</a>
+llqqnt://plugininstaller/xinyihl/LiteLoaderQQNT-PluginInstaller/main/manifest.json   
+即将你仓库的 `manifest.json` 文件访问链接的 `https://raw.githubusercontent.com` 改为 `llqqnt://plugininstaller`
 
 ### 使用方法
 1. `下载zip文件` 解压
