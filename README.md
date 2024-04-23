@@ -10,6 +10,10 @@
 >llqqnt://plugininstaller/xinyihl/LiteLoaderQQNT-PluginInstaller/main/manifest.json   
 即将你仓库的 `manifest.json` 文件访问链接的 `https://raw.githubusercontent.com` 改为 `llqqnt://plugininstaller`
 
+#### 对于插件开发者：   
+>可以使用 `LiteLoader.api.openPluginInfoWindow(url, true)` 打开更新模式弹窗   
+其中 `url` 即你仓库的 `manifest.json` 文件访问链接
+
 ### 使用方法
 1. 下载最新 [发行版 ](https://github.com/xinyihl/LiteLoaderQQNT-PluginInstaller/releases) 并解压
 2. 将文件夹移动至 `LiteLoaderQQNT数据目录/plugins/` 下面
