@@ -2,7 +2,7 @@
 
 ### 功能
 - 下载插件时显示下载进度、断点续传
-- 通过 `URL Schemes` 链接跳转 `QQ` 安装插件  
+- 通过 `URL Schemes` 链接跳转 `QQ` 安装插件 [试一试](https://xinyihl.github.io/LiteLoaderQQNT-PluginInstaller/)
 - 在设置页面输入插件 `manifest.json` 文件访问链接安装插件
 - 更新插件（todo 懒得写页面, api 已经完成）
 
