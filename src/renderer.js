@@ -4,10 +4,10 @@ export const onSettingWindowCreated = async view => {
     try {
         const hetiLinkElement = document.createElement("link");
         hetiLinkElement.rel = "stylesheet";
-        hetiLinkElement.href = `local:///${plugin_path}/src/settings.css`;
+        hetiLinkElement.href = `local:///${plugin_path}/src/settings/settings.css`;
         document.head.appendChild(hetiLinkElement);
 
-        const html_file_path = `local:///${plugin_path}/src/settings.html`;
+        const html_file_path = `local:///${plugin_path}/src/settings/settings.html`;
         view.innerHTML = await (await fetch(html_file_path)).text();
 
         const button = view.querySelector(".plugininstaller-install");
