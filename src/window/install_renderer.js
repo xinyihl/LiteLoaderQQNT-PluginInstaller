@@ -59,7 +59,7 @@ function init(plugin) {
       document.querySelector("#install").disabled = true;
       document.querySelector("#dowloadTagProgess").style.display = "block";
       document.querySelector("#dowloadTagText").style.display = "block";
-      plugininstaller.installPlugin();
+      plugininstaller.installPlugin(plugin);
     }
   });
 

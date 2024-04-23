@@ -20,8 +20,8 @@ ipcMain.on("LiteLoader.plugininstaller.installByUrl", (event, url) =>
   openInstallWindow(urlheader + url)
 );
 
-ipcMain.on("LiteLoader.plugininstaller.installPlugin", (event) =>
-  install(event.sender, plugin_data)
+ipcMain.on("LiteLoader.plugininstaller.installPlugin", (event, plugin) =>
+  install(event.sender, plugin)
 );
 
 ipcMain.handle("LiteLoader.plugininstaller.WindowInit", (event) => {
