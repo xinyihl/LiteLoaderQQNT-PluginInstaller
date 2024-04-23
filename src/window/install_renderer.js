@@ -42,7 +42,7 @@ function init(plugin) {
       </div>
       <progress id="dowloadTagProgess"" max="100" value="0"></progress>
       <div class="button">
-          <span id="dowloadTagText"></span>
+          <span id="dowloadTagText">准备中</span>
           <button id="thebutton" type="button">${plugin.PIupdatemode ? "更新" : "安装"}</button>
           <button id="more" type="button">详情</button>
           <button id="quit" type="button">关闭</button>
