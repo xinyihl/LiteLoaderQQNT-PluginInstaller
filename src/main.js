@@ -87,3 +87,5 @@ async function openPluginInfoWindow(url, updatemode = false) {
 
   installWindow.loadFile(path.join(__dirname, "window/install.html"));
 }
+
+LiteLoader.api.openPluginInfoWindow = openPluginInfoWindow;
