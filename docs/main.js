@@ -24,7 +24,7 @@ async function init() {
           <h3 style="display: unset;">${plugin.name}</h3><br>
           <span>${plugin.version}</span>
           <p style="display: unset;">${plugin.description}</p>
-          <a href="llqqnt://plugininstaller/${plugin.repository.repo}/manifest.json">下载</a>
+          <a href="llqqnt://plugininstaller/${plugin.repository.repo}/${plugin.repository.branch}/manifest.json">下载</a>
       </div>
       `;
         const doc = new DOMParser().parseFromString(temp, "text/html");
