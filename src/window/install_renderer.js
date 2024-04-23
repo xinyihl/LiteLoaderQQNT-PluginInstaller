@@ -18,6 +18,7 @@ window.onload = async () => {
     plugininstaller.WindowShow();
   } catch (error) {
     plugininstaller.log(1, error)
+    plugininstaller.close();
   }
 }
 
