@@ -1,5 +1,5 @@
 const { ipcMain, app, shell, BrowserWindow } = require("electron");
-const { install } = require("./main_models/pluginApi.js");
+const { UorI } = require("./main_models/pluginApi.js");
 const { urlheader, fetchOptions, initurlheader } = require("./main_models/options.js");
 const fetch = require("node-fetch");
 const path = require("path");
@@ -12,16 +12,16 @@ app.whenReady().then(() => {
   LiteLoader.api.registerUrlHandler("plugininstaller", (rest, all) => {
     const url =
       `${urlheader}https://raw.githubusercontent.com/` + rest.join("/");
-    openInstallWindow(url);
+    openPluginInfoWindow(url);
   });
 });
 
 ipcMain.on("LiteLoader.plugininstaller.installByUrl", (event, url) =>
-  openInstallWindow(urlheader + url)
+  openPluginInfoWindow(urlheader + url)
 );
 
 ipcMain.on("LiteLoader.plugininstaller.installPlugin", (event, plugin) =>
-  install(event.sender, plugin)
+  UorI(event.sender, plugin)
 );
 
 ipcMain.handle("LiteLoader.plugininstaller.WindowInit", (event) => {
@@ -46,7 +46,7 @@ ipcMain.on("LiteLoader.plugininstaller.WindowShow", (event) =>
   BrowserWindow.fromWebContents(event.sender).show()
 );
 
-async function initPluginData(url) {
+async function initPluginData(url, updatemode) {
   try {
     plugin_data = await (await fetch(url, fetchOptions)).json();
     const downloadtemp = await (
@@ -59,13 +59,14 @@ async function initPluginData(url) {
     plugin_data.PIurl = downloadtemp.url
       ? urlheader + downloadtemp.assets[0].browser_download_url
       : `${urlheader}https://github.com/${plugin.repository.repo}/archive/refs/heads/${plugin.repository.branch}.zip`;
+    plugin_data.PIupdatemode = updatemode;
   } catch (error) {
     console.error("[Plugininstaller initPluginData]", error);
   }
 }
 
-async function openInstallWindow(url) {
-  await initPluginData(url);
+async function openPluginInfoWindow(url, updatemode = false) {
+  await initPluginData(url, updatemode);
   const installWindow = new BrowserWindow({
     frame: false,
     resizable: false,

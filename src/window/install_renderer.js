@@ -43,7 +43,7 @@ function init(plugin) {
       <progress id="dowloadTagProgess"" max="100" value="0"></progress>
       <div class="button">
           <span id="dowloadTagText"></span>
-          <button id="install" type="button">安装</button>
+          <button id="thebutton" type="button">${plugin.PIupdatemode ? "更新" : "安装"}</button>
           <button id="more" type="button">详情</button>
           <button id="quit" type="button">关闭</button>
       </div>
@@ -53,10 +53,10 @@ function init(plugin) {
 
   document.querySelector(".app").appendChild(doc.querySelector("div"));
 
-  document.querySelector("#install").addEventListener("click", () => {
+  document.querySelector("#thebutton").addEventListener("click", () => {
     if(!dowload_tag){
       dowload_tag = true;
-      document.querySelector("#install").disabled = true;
+      document.querySelector("#thebutton").disabled = true;
       document.querySelector("#dowloadTagProgess").style.display = "block";
       document.querySelector("#dowloadTagText").style.display = "block";
       plugininstaller.installPlugin(plugin);

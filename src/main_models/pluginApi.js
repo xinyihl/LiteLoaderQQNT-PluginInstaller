@@ -11,6 +11,7 @@ async function uninstall(slug, update_mode = false) {
   try {
     if (update_mode) {
       fs.rmSync(paths.plugin, { recursive: true, force: true });
+      return;
     }
     for (const [name, path] of Object.entries(paths)) {
       fs.rmSync(path, { recursive: true, force: true });
@@ -32,12 +33,19 @@ async function update(webContent, plugin) {
   }
 }
 
+function UorI(webContent, plugin){
+  if(plugin.PIupdatemode){
+    update(webContent, plugin)
+  }else{
+    install(webContent, plugin)
+  }
+}
+
 async function install(webContent, plugin) {
   try {
     const pluginDataPath = LiteLoader.plugins.plugininstaller.path.data;
     const fileName = `${plugin.slug} v${plugin.version}.zip`;
     const cacheFilePath = path.join(pluginDataPath, fileName);
-
     installPlugin(webContent, plugin.PIurl, cacheFilePath, plugin);
   } catch (error) {
     dialog.showErrorBox(
@@ -232,5 +240,6 @@ function installPlugin(webContent, fileURL, fileSavePath, plugin) {
 module.exports = {
   install,
   uninstall,
-  update
+  update,
+  UorI
 };
