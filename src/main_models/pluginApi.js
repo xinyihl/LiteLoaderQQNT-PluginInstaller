@@ -1,36 +1,27 @@
-const { dialog } = require("electron");
-const StreamZip = require("node-stream-zip");
-const fetch = require("node-fetch");
-const fs = require("fs");
-const path = require("path");
 const progressStream = require("progress-stream");
 const { httpsAgent } = require("./options.js");
+const StreamZip = require("node-stream-zip");
+const { dialog } = require("electron");
+const fetch = require("node-fetch");
+const path = require("path");
+const fs = require("fs");
 
-async function uninstall(slug, update_mode = false) {
+async function uninstall(slug) {
   const paths = LiteLoader.plugins[slug].path;
   if (!paths) return;
   try {
-    if (update_mode) {
-      fs.rmSync(paths.plugin, { recursive: true, force: true });
-      return;
-    }
-    for (const [name, path] of Object.entries(paths)) {
-      fs.rmSync(path, { recursive: true, force: true });
-    }
+    fs.rmSync(paths.plugin, { recursive: true, force: true });
   } catch (error) {
-    dialog.showErrorBox(
-      "PluginInstaller uninstall",
-      error.stack || error.message
-    );
+    dialog.showErrorBox( "PluginInstaller uninstall", error.stack || error.message);
   }
 }
 
 async function update(webContent, plugin) {
   try {
-    await uninstall(plugin.slug, true);
+    await uninstall(plugin.slug);
     await install(webContent, plugin);
   } catch (error) {
-    dialog.showErrorBox("PluginInstaller update", error.stack || error.message);
+    dialog.showErrorBox( "PluginInstaller update", error.stack || error.message);
   }
 }
 
@@ -49,10 +40,7 @@ async function install(webContent, plugin) {
     const cacheFilePath = path.join(pluginDataPath, fileName);
     await installPlugin(webContent, plugin.PIurl, cacheFilePath, plugin);
   } catch (error) {
-    dialog.showErrorBox(
-      "PluginInstaller install",
-      error.stack || error.message
-    );
+    dialog.showErrorBox( "PluginInstaller install", error.stack || error.message);
   }
 }
 
@@ -95,6 +83,19 @@ async function installPlugin(webContent, fileURL, fileSavePath, plugin) {
     fetchHeaders["last-modified"] = downCfg.rh["last-modified"];
   }
 
+  /*
+  progressData: {
+    percentage: 9.05, 进度
+    transferred: 949624, 已完成
+    length: 10485760, 文件大小
+    remaining: 9536136, 剩余
+    eta: 42,
+    runtime: 3, 耗时
+    delta: 295396,
+    speed: 949624 速度
+  }
+  */
+
   const checkHerder = [
     "last-modified", //文件最后修改时间
     "server", //服务器
@@ -110,55 +111,47 @@ async function installPlugin(webContent, fileURL, fileSavePath, plugin) {
     //timeout: 1000,
   })
     .then((res) => {
+
       let h = {};
-      res.headers.forEach(function (v, i, a) {
-        h[i.toLowerCase()] = v;
-      });
       let fileIsChange = false;
+
+      res.headers.forEach((v, i, a) => { h[i.toLowerCase()] = v;});
+
       if (downCfg.first) {
+
         for (let k of checkHerder) downCfg.rh[k] = h[k];
+
         downCfg.length = h["content-length"];
+
       } else {
+
         for (let k of checkHerder) {
           if (downCfg.rh[k] != h[k]) {
             fileIsChange = true;
             break;
           }
         }
+
         downCfg.range = res.headers.get("content-range") ? true : false;
+
       }
       writeStream = fs
-        .createWriteStream(tmpFileSavePath, {
-          flags: !downCfg.range || fileIsChange ? "w" : "a",
-        })
-        .on("error", function (error) {
-          dialog.showErrorBox(
-            "PluginInstaller dowloadFile",
-            error.stack || error.message
-          );
-        })
-        .on("ready", function () {
-          webContent.send("LiteLoader.plugininstaller.UpdateInfo", {
-            text: "开始下载",
-            progressData: null,
-          });
-        })
-        .on("finish", async function () {
+        .createWriteStream(tmpFileSavePath, { flags: !downCfg.range || fileIsChange ? "w" : "a"})
+        .on("error", (error) => { dialog.showErrorBox( "PluginInstaller dowloadFile", error.stack || error.message); })
+        .on("ready", () => { webContent.send("LiteLoader.plugininstaller.UpdateInfo", { text: "开始下载", progressData: null }); })
+        .on("finish", async () => {
+
           fs.renameSync(tmpFileSavePath, fileSavePath);
           fs.unlinkSync(cfgFileSavePath);
-          webContent.send("LiteLoader.plugininstaller.UpdateInfo", {
-            text: "下载完成",
-            progressData: null,
-          });
+
+          webContent.send("LiteLoader.plugininstaller.UpdateInfo", { text: "下载完成", progressData: null });
 
           const { plugins } = LiteLoader.path;
           const plugin_path = `${plugins}/${plugin.slug}`;
 
           try {
-            webContent.send("LiteLoader.plugininstaller.UpdateInfo", {
-              text: "解压中...",
-              progressData: null,
-            });
+
+            webContent.send("LiteLoader.plugininstaller.UpdateInfo", { text: "解压中...", progressData: null });
 
             fs.mkdirSync(plugin_path, { recursive: true });
 
@@ -168,75 +161,45 @@ async function installPlugin(webContent, fileURL, fileSavePath, plugin) {
 
             for (const entry of Object.values(entries)) {
               if (!entry.name.includes(".github")) {
-                const pathname = `${plugin_path}/${
-                  isFolder
-                    ? entry.name.split("/").slice(1).join("/")
-                    : entry.name
-                }`;
+
+                const pathname = `${plugin_path}/${isFolder ? entry.name.split("/").slice(1).join("/") : entry.name}`;
+
                 if (entry.isDirectory) {
                   fs.mkdirSync(pathname, { recursive: true });
                   continue;
                 }
+
                 try {
                   if (entry.isFile) {
                     await zip.extract(entry.name, pathname);
                     continue;
                   }
                 } catch (error) {
-                  fs.mkdirSync(pathname.slice(0, pathname.lastIndexOf("/")), {
-                    recursive: true,
-                  });
+                  fs.mkdirSync(pathname.slice(0, pathname.lastIndexOf("/")), { recursive: true });
                   await zip.extract(entry.name, pathname);
                   continue;
                 }
               }
             }
+
             await zip.close();
-            webContent.send("LiteLoader.plugininstaller.UpdateInfo", {
-              text: "安装完成",
-              progressData: null,
-            });
+
+            webContent.send("LiteLoader.plugininstaller.UpdateInfo", { text: "安装完成", progressData: null });
+
           } catch (error) {
-            dialog.showErrorBox(
-              "PluginInstaller",
-              error.stack || error.message
-            );
+            dialog.showErrorBox( "PluginInstaller", error.stack || error.message );
             fs.rmSync(plugin_path, { recursive: true, force: true });
           }
         });
 
       fs.writeFileSync(cfgFileSavePath, JSON.stringify(downCfg));
-      let str = progressStream({
-        length: h["content-length"],
-        time: 100,
-      });
 
-      str.on("progress", function (progressData) {
-        webContent.send("LiteLoader.plugininstaller.UpdateInfo", {
-          text: "下载中...",
-          progressData: progressData,
-        });
-        /*
-        {
-            percentage: 9.05, 进度
-            transferred: 949624, 已完成
-            length: 10485760, 文件大小
-            remaining: 9536136, 剩余
-            eta: 42,
-            runtime: 3, 耗时
-            delta: 295396,
-            speed: 949624 速度
-        }
-        */
-      });
+      let str = progressStream({ length: h["content-length"], time: 100 });
+
+      str.on("progress", function (progressData) { webContent.send("LiteLoader.plugininstaller.UpdateInfo", { text: "下载中...", progressData: progressData }); });
       res.body.pipe(str).pipe(writeStream);
     })
-    .catch((error) => {
-      dialog.showErrorBox(
-        "PluginInstaller dowloadFile",
-        error.stack || error.message
-      );
-    });
+    .catch((error) => { dialog.showErrorBox( "PluginInstaller dowloadFile", error.stack || error.message); });
 }
 
 module.exports = {

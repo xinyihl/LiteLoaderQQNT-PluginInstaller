@@ -1,6 +1,6 @@
 const { ipcMain, app, shell, BrowserWindow } = require("electron");
-const { UorI } = require("./main_models/pluginApi.js");
 const { fetchOptions } = require("./main_models/options.js");
+const { UorI } = require("./main_models/pluginApi.js");
 const fetch = require("node-fetch");
 const path = require("path");
 
@@ -13,35 +13,19 @@ app.whenReady().then(() => {
   });
 });
 
-ipcMain.on("LiteLoader.plugininstaller.installByUrl", (event, url) =>
-  openPluginInfoWindow(url)
-);
+ipcMain.on("LiteLoader.plugininstaller.installByUrl", (event, url) => openPluginInfoWindow(url));
 
-ipcMain.on("LiteLoader.plugininstaller.installPlugin", (event, plugin) =>
-  UorI(event.sender, plugin)
-);
+ipcMain.on("LiteLoader.plugininstaller.installPlugin", (event, plugin) => UorI(event.sender, plugin));
 
-ipcMain.handle("LiteLoader.plugininstaller.WindowInit", (event) => {
-  return plugin_data;
-});
+ipcMain.handle("LiteLoader.plugininstaller.WindowInit", (event) => { return plugin_data; });
 
-ipcMain.on("LiteLoader.plugininstaller.close", (event) =>
-  BrowserWindow.fromWebContents(event.sender).close()
-);
+ipcMain.on("LiteLoader.plugininstaller.close", (event) => BrowserWindow.fromWebContents(event.sender).close());
 
-ipcMain.on("LiteLoader.plugininstaller.openWeb", (event, url) =>
-  shell.openExternal(url)
-);
+ipcMain.on("LiteLoader.plugininstaller.openWeb", (event, url) => shell.openExternal(url));
 
-ipcMain.on("LiteLoader.plugininstaller.log", (event, level, ...args) =>
-  console[
-    { 0: "debug", 1: "log", 2: "info", 3: "warn", 4: "error" }[level] || "log"
-  ](`[!Renderer:Log:${event.sender.id}]`, ...args)
-);
+ipcMain.on("LiteLoader.plugininstaller.log", (event, level, ...args) => console[{ 0: "debug", 1: "log", 2: "info", 3: "warn", 4: "error" }[level] || "log"](`[!Renderer:Log:${event.sender.id}]`, ...args));
 
-ipcMain.on("LiteLoader.plugininstaller.WindowShow", (event) =>
-  BrowserWindow.fromWebContents(event.sender).show()
-);
+ipcMain.on("LiteLoader.plugininstaller.WindowShow", (event) => BrowserWindow.fromWebContents(event.sender).show());
 
 async function initPluginData(url, updatemode) {
   try {

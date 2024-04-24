@@ -1,7 +1,8 @@
-const { HttpsProxyAgent } = require("https-proxy-agent");
 const { getProxySettings } = require("get-proxy-settings");
+const { HttpsProxyAgent } = require("https-proxy-agent");
 
-let fetchOptions = async () => {
+
+const fetchOptions = async () => {
   return {
     agent: await httpsAgent(),
     headers: {
@@ -10,7 +11,7 @@ let fetchOptions = async () => {
   };
 };
 
-async function httpsAgent() {
+const httpsAgent = async () => {
   const proxy = await getProxySettings();
   if (proxy) {
     return new HttpsProxyAgent(proxy.http);
@@ -21,5 +22,5 @@ async function httpsAgent() {
 
 module.exports = {
   fetchOptions,
-  httpsAgent,
+  httpsAgent
 };
