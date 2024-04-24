@@ -4,6 +4,7 @@ const fetch = require("node-fetch");
 const fs = require("fs");
 const path = require("path");
 const progressStream = require("progress-stream");
+const { httpsAgent } = require("./options.js");
 
 async function uninstall(slug, update_mode = false) {
   const paths = LiteLoader.plugins[slug].path;
@@ -46,7 +47,7 @@ async function install(webContent, plugin) {
     const pluginDataPath = LiteLoader.plugins.plugininstaller.path.data;
     const fileName = `${plugin.slug} v${plugin.version}.zip`;
     const cacheFilePath = path.join(pluginDataPath, fileName);
-    installPlugin(webContent, plugin.PIurl, cacheFilePath, plugin);
+    await installPlugin(webContent, plugin.PIurl, cacheFilePath, plugin);
   } catch (error) {
     dialog.showErrorBox(
       "PluginInstaller install",
@@ -55,7 +56,7 @@ async function install(webContent, plugin) {
   }
 }
 
-function installPlugin(webContent, fileURL, fileSavePath, plugin) {
+async function installPlugin(webContent, fileURL, fileSavePath, plugin) {
   let tmpFileSavePath = fileSavePath + ".tmp";
   let cfgFileSavePath = fileSavePath + ".cfg.json";
 
@@ -103,6 +104,7 @@ function installPlugin(webContent, fileURL, fileSavePath, plugin) {
   ];
 
   fetch(fileURL, {
+    agent: await httpsAgent(),
     method: "GET",
     headers: fetchHeaders,
     //timeout: 1000,

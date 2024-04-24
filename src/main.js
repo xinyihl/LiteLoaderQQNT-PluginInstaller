@@ -1,23 +1,20 @@
 const { ipcMain, app, shell, BrowserWindow } = require("electron");
 const { UorI } = require("./main_models/pluginApi.js");
-const { urlheader, fetchOptions, initurlheader } = require("./main_models/options.js");
+const { fetchOptions } = require("./main_models/options.js");
 const fetch = require("node-fetch");
 const path = require("path");
-
-initurlheader();
 
 let plugin_data;
 
 app.whenReady().then(() => {
   LiteLoader.api.registerUrlHandler("plugininstaller", (rest, all) => {
-    const url =
-      `${urlheader}https://raw.githubusercontent.com/` + rest.join("/");
+    const url = `https://raw.githubusercontent.com/` + rest.join("/");
     openPluginInfoWindow(url);
   });
 });
 
 ipcMain.on("LiteLoader.plugininstaller.installByUrl", (event, url) =>
-  openPluginInfoWindow(urlheader + url)
+  openPluginInfoWindow(url)
 );
 
 ipcMain.on("LiteLoader.plugininstaller.installPlugin", (event, plugin) =>
@@ -48,17 +45,9 @@ ipcMain.on("LiteLoader.plugininstaller.WindowShow", (event) =>
 
 async function initPluginData(url, updatemode) {
   try {
-    plugin_data = await (await fetch(url, fetchOptions)).json();
-    const downloadtemp = await (
-      await fetch(
-        `https://api.github.com/repos/${plugin_data.repository.repo}/releases/latest`,
-        fetchOptions
-      )
-    ).json();
-
-    plugin_data.PIurl = downloadtemp.url
-      ? urlheader + downloadtemp.assets[0].browser_download_url
-      : `${urlheader}https://github.com/${plugin.repository.repo}/archive/refs/heads/${plugin.repository.branch}.zip`;
+    plugin_data = await (await fetch(url, await fetchOptions())).json();
+    const downloadtemp = await (await fetch(`https://api.github.com/repos/${plugin_data.repository.repo}/releases/latest`, await fetchOptions())).json();
+    plugin_data.PIurl = downloadtemp.url ? downloadtemp.assets[0].browser_download_url : `https://github.com/${plugin.repository.repo}/archive/${plugin.repository.branch}.zip`;
     plugin_data.PIupdatemode = updatemode;
   } catch (error) {
     console.error("[Plugininstaller initPluginData]", error);
@@ -84,7 +73,6 @@ async function openPluginInfoWindow(url, updatemode = false) {
       preload: path.join(__dirname, "window/install_preload.js"),
     },
   });
-
   installWindow.loadFile(path.join(__dirname, "window/install.html"));
 }
 

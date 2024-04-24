@@ -23,7 +23,7 @@ window.onload = async () => {
 }
 
 function init(plugin) {
-  const icon = plugin.icon ? `https://ghproxy.net/https://raw.githubusercontent.com/${plugin.repository.repo}/${plugin.repository.branch}/${plugin.icon}` : "default_icon.png"
+  const icon = plugin.icon ? `https://raw.githubusercontent.com/${plugin.repository.repo}/${plugin.repository.branch}/${plugin.icon}` : "default_icon.png"
   const temp = `
   <div>
       <div>

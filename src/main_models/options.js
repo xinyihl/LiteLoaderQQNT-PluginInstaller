@@ -1,48 +1,25 @@
-const urlheader = "https://ghproxy.net/";
+const { HttpsProxyAgent } = require("https-proxy-agent");
+const { getProxySettings } = require("get-proxy-settings");
 
-const urlsToTest = [
-  "https://mirror.ghproxy.com/",
-  "https://ghproxy.net/",
-  "https://moeyy.cn/gh-proxy/",
-  "",
-];
-
-const fetchOptions = {
+let fetchOptions = async () => {
+  return {
+    agent: await httpsAgent(),
     headers: {
       "User-Agent": "Mozilla/5.0",
     },
+  };
 };
 
-async function initurlheader(
-  testUrl = "https://raw.githubusercontent.com/LiteLoaderQQNT/LiteLoaderQQNT/main/package.json",
-  urls = urlsToTest
-) {
-  const requests = urls.map(async (url) => {
-    const start = performance.now();
-    try {
-      await fetch(url + testUrl);
-      const end = performance.now();
-      return { url, responseTime: end - start };
-    } catch (error) {
-      return { url, responseTime: Infinity };
-    }
-  });
-
-  const results = await Promise.all(requests);
-
-  const fastest = results.reduce(
-    (min, result) => {
-      return result.responseTime < min.responseTime ? result : min;
-    },
-    { responseTime: Infinity }
-  );
-
-  urlheader = fastest.url;
+async function httpsAgent() {
+  const proxy = await getProxySettings();
+  if (proxy) {
+    return new HttpsProxyAgent(proxy.http);
+  } else {
+    return false;
+  }
 }
 
-
 module.exports = {
-  urlheader,
   fetchOptions,
-  initurlheader
+  httpsAgent,
 };

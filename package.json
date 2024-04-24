@@ -1,6 +1,6 @@
 {
     "name": "liteloaderqqnt-plugininstaller",
-    "version": "1.1.2",
+    "version": "1.2.0",
     "description": "",
     "main": "index.js",
     "scripts": {
@@ -9,6 +9,8 @@
     "author": "xinyihl",
     "license": "ISC",
     "dependencies": {
+        "get-proxy-settings": "^0.1.13",
+        "https-proxy-agent": "^7.0.4",
         "node-fetch": "^2.7.0",
         "node-stream-zip": "^1.15.0",
         "progress-stream": "^2.0.0"
