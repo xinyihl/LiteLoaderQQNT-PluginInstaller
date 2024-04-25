@@ -6,7 +6,7 @@
     "description": "插件安装器",
     "icon": "./static/icon.png",
     "thumb": "./static/thumb.svg",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "authors": [
         {
             "name": "xinyihl",
@@ -20,7 +20,7 @@
         "repo": "xinyihl/LiteLoaderQQNT-PluginInstaller",
         "branch": "main",
         "release": {
-            "tag": "v1.2.0",
+            "tag": "v1.2.1",
             "file": "Plugininstaller-release.zip"
         }
     },
