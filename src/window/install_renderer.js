@@ -54,6 +54,8 @@ function init(plugin) {
 
   document.querySelector(".app").appendChild(doc.querySelector("div"));
 
+  document.querySelector("#thebutton").disabled = !plugin.PIinstall;
+
   document.querySelector("#thebutton").addEventListener("click", () => {
     if(!dowload_tag){
       dowload_tag = true;

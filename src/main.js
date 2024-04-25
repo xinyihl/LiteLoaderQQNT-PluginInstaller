@@ -7,6 +7,8 @@ const path = require("path");
 let plugin_data;
 
 app.whenReady().then(() => {
+  if(LiteLoader.os.platform !== "win32") return;
+  if(!LiteLoader.plugins["protocio"]) return;
   LiteLoader.api.registerUrlHandler("plugininstaller", (rest, all) => {
     const url = `https://raw.githubusercontent.com/` + rest.join("/");
     openPluginInfoWindow(url);
@@ -27,19 +29,26 @@ ipcMain.on("LiteLoader.plugininstaller.log", (event, level, ...args) => console[
 
 ipcMain.on("LiteLoader.plugininstaller.WindowShow", (event) => BrowserWindow.fromWebContents(event.sender).show());
 
-async function initPluginData(url, updatemode) {
+async function initPluginData(url) {
   try {
     plugin_data = await (await fetch(url, await fetchOptions())).json();
+
+    const isInstall = LiteLoader.plugins[plugin_data.slug] ? true : false;
     const downloadtemp = await (await fetch(`https://api.github.com/repos/${plugin_data.repository.repo}/releases/latest`, await fetchOptions())).json();
-    plugin_data.PIurl = downloadtemp.url ? downloadtemp.assets[0].browser_download_url : `https://github.com/${plugin.repository.repo}/archive/${plugin.repository.branch}.zip`;
-    plugin_data.PIupdatemode = updatemode;
+
+    plugin_data.PIurl = downloadtemp.url ? downloadtemp.assets[0].browser_download_url : `https://github.com/${plugin_data.repository.repo}/archive/${plugin_data.repository.branch}.zip`;
+
+
+    plugin_data.PIupdatemode = isInstall ? plugin_data.version > LiteLoader.plugins[plugin_data.slug].manifest.version : false;
+    if(!plugin_data.PIinstall) plugin_data.PIinstall = isInstall ?  LiteLoader.plugins[plugin_data.slug].manifest.version != plugin_data.version : true;
+    
   } catch (error) {
     console.error("[Plugininstaller initPluginData]", error);
   }
 }
 
-async function openPluginInfoWindow(url, updatemode = false) {
-  await initPluginData(url, updatemode);
+async function openPluginInfoWindow(url) {
+  await initPluginData(url);
   const installWindow = new BrowserWindow({
     frame: false,
     resizable: false,
@@ -60,4 +69,13 @@ async function openPluginInfoWindow(url, updatemode = false) {
   installWindow.loadFile(path.join(__dirname, "window/install.html"));
 }
 
-LiteLoader.api.openPluginInfoWindow = openPluginInfoWindow;
+LiteLoader.api.openPluginInfoWindow = (slug) => {
+  const isInstall = LiteLoader.plugins[slug] ? true : false;
+  if(!isInstall) {
+    console.error("[Plugininstaller openPluginInfoWindow]", slug, "Plugin not found");
+    return;
+  }
+  const plugin = LiteLoader.plugins[slug].manifest;
+  const url = `https://raw.githubusercontent.com/${plugin.repository.repo}/${plugin.repository.branch}/manifest.json`;
+  openPluginInfoWindow(url)
+};

@@ -6,13 +6,17 @@
 - 在设置页面输入插件 `manifest.json` 文件访问链接安装插件
 - 更新插件（todo 懒得写页面, api 已经完成）
 
+> [!NOTE]\
+> 该插件仅在 Windows 环境下测试开发，未对其他平台进行测试，不保证可用性 \
+> 其中 `URL Schemes` 不支持 mac & linux系统 \
+
 #### URL Schemes 链接示例：   
->llqqnt://plugininstaller/xinyihl/LiteLoaderQQNT-PluginInstaller/main/manifest.json   
-即将你仓库的 `manifest.json` 文件访问链接的 `https://raw.githubusercontent.com` 改为 `llqqnt://plugininstaller`
+> llqqnt://plugininstaller/xinyihl/LiteLoaderQQNT-PluginInstaller/main/manifest.json   
+> 即将你仓库的 `manifest.json` 文件访问链接的 `https://raw.githubusercontent.com` 改为 `llqqnt://plugininstaller`
 
 #### 对于插件开发者：   
->可以使用 `LiteLoader.api.openPluginInfoWindow(url, true)` 打开更新模式弹窗   
-其中 `url` 即你仓库的 `manifest.json` 文件访问链接
+> - 使用 `LiteLoader.api.openPluginInfoWindow(slug)` 打开弹窗，本插件会自动判断是否为更新模式
+> - 在你的仓库的 `manifest.json` 文件中添加 `"PIinstall": false` 字段来禁止插件安装器自动安装你的插件
 
 ### 使用方法
 1. 下载最新 [发行版 ](https://github.com/xinyihl/LiteLoaderQQNT-PluginInstaller/releases) 并解压
