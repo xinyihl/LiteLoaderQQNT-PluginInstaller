@@ -25,7 +25,9 @@
         }
     },
     "platform": [
-        "win32"
+        "win32",
+        "linux",
+        "darwin"
     ],
     "injects": {
         "main": "./src/main.js",
