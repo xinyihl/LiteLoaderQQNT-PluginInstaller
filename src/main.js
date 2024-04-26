@@ -36,11 +36,10 @@ ipcMain.on("LiteLoader.plugininstaller.WindowShow", (event) => BrowserWindow.fro
 async function initPluginData(url) {
   try {
     plugin_data = await (await fetch(url, await fetchOptions())).json();
-
     const isInstall = LiteLoader.plugins[plugin_data.slug] ? true : false;
     const downloadtemp = await (await fetch(`https://api.github.com/repos/${plugin_data.repository.repo}/releases/latest`, await fetchOptions())).json();
 
-    plugin_data.PIurl = downloadtemp.url ? downloadtemp.assets[0].browser_download_url : `https://github.com/${plugin_data.repository.repo}/archive/${plugin_data.repository.branch}.zip`;
+    plugin_data.PIurl = downloadtemp.url ? downloadtemp.assets[0] ? downloadtemp.assets[0].browser_download_url : downloadtemp.zipball_url : `https://github.com/${plugin_data.repository.repo}/archive/${plugin_data.repository.branch}.zip`;
 
 
     plugin_data.PIupdatemode = isInstall ? plugin_data.version > LiteLoader.plugins[plugin_data.slug].manifest.version : false;
