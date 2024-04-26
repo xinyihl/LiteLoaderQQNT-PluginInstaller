@@ -14,6 +14,11 @@ app.whenReady().then(() => {
   });
 });
 
+ipcMain.on("LiteLoader.plugininstaller.restart", (event) => {
+  app.relaunch();
+  app.exit();
+});
+
 ipcMain.on("LiteLoader.plugininstaller.installByUrl", (event, url) => openPluginInfoWindow(url));
 
 ipcMain.on("LiteLoader.plugininstaller.installPlugin", (event, plugin) => UorI(event.sender, plugin));

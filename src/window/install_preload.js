@@ -7,5 +7,6 @@ contextBridge.exposeInMainWorld("plugininstaller", {
     WindowInit: () => ipcRenderer.invoke("LiteLoader.plugininstaller.WindowInit"),
     WindowShow: () => ipcRenderer.send("LiteLoader.plugininstaller.WindowShow"),
     installPlugin: (plugin) => ipcRenderer.send("LiteLoader.plugininstaller.installPlugin", plugin),
-    onUpdateInfo: (callback) => ipcRenderer.on("LiteLoader.plugininstaller.UpdateInfo", (event, tag) => callback(tag))
+    onUpdateInfo: (callback) => ipcRenderer.on("LiteLoader.plugininstaller.UpdateInfo", (event, tag) => callback(tag)),
+    restart: () => ipcRenderer.send("LiteLoader.plugininstaller.restart")
 });

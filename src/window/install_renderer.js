@@ -13,6 +13,13 @@ window.onload = async () => {
       if(tag.progressData){
         dowloadTagProgess.value = tag.progressData.percentage;
       }
+
+      if(tag.text === "安装完成"){
+        if(plugin.PIupdatemode) dowloadTagText.textContent = "更新完成";
+        const button = document.querySelector("#thebutton");
+        button.textContent = "重启";
+        button.disabled = false;
+      }
     })
 
     plugininstaller.WindowShow();
@@ -63,6 +70,8 @@ function init(plugin) {
       document.querySelector("#dowloadTagProgess").style.display = "block";
       document.querySelector("#dowloadTagText").style.display = "block";
       plugininstaller.installPlugin(plugin);
+    }else{
+      plugininstaller.restart();
     }
   });
 
