@@ -13,9 +13,6 @@
             "link": "https://github.com/xinyihl"
         }
     ],
-    "dependencies": [
-        "protocio"
-    ],
     "repository": {
         "repo": "xinyihl/LiteLoaderQQNT-PluginInstaller",
         "branch": "main",
