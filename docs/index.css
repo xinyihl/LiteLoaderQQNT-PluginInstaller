@@ -1,5 +1,4 @@
 .app {
-
   display: grid;
   grid: auto-flow / repeat(auto-fill, 630px);
   justify-content: space-evenly;
@@ -39,7 +38,6 @@ a {
 
 .icon {
   width: 100px;
-  background-color: #aef3f3;
   border-radius: 10px;
 }
 
