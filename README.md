@@ -1,17 +1,17 @@
 # LiteLoaderQQNT-PluginInstaller
 
+> [!NOTE]\
+> 该插件仅在 Windows 环境下测试开发，未对其他平台进行测试，不保证可用性 \
+> 其中 `URL Schemes` 功能 [mac](https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html#//apple_ref/doc/uid/TP40009249-102207-TPXREF115) & [linux](https://askubuntu.com/questions/514125/url-protocol-handlers-in-basic-ubuntu-desktop) 系统需要在安装前修改安装包，因此不支持
+
 ### 功能
 - 下载插件时显示下载进度、断点续传
 - 通过 `URL Schemes` 链接跳转 `QQ` 安装插件 [试一试](https://xinyihl.github.io/LiteLoaderQQNT-PluginInstaller/)
 - 在设置页面输入插件 `manifest.json` 文件访问链接安装插件
 - 更新插件（todo 懒得写页面, api 已经完成）
 
-> [!NOTE]\
-> 该插件仅在 Windows 环境下测试开发，未对其他平台进行测试，不保证可用性 \
-> 其中 `URL Schemes` 不支持 mac & linux系统 \
-
 #### URL Schemes 链接示例：   
-> llqqnt://plugininstaller/xinyihl/LiteLoaderQQNT-PluginInstaller/main/manifest.json   
+> llqqnt://plugininstaller/xinyihl/LiteLoaderQQNT-PluginInstaller/main/manifest.json \
 > 即将你仓库的 `manifest.json` 文件访问链接的 `https://raw.githubusercontent.com` 改为 `llqqnt://plugininstaller`
 
 #### 对于插件开发者：   
