@@ -7,7 +7,6 @@ const path = require("path");
 let plugin_data;
 
 app.whenReady().then(() => {
-  if(LiteLoader.os.platform !== "win32") return;
   if(!LiteLoader.plugins["protocio"]) return;
   LiteLoader.api.registerUrlHandler("plugininstaller", (rest, all) => {
     const url = `https://raw.githubusercontent.com/` + rest.join("/");
