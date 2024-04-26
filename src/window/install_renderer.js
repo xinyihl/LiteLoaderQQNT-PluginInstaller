@@ -33,28 +33,29 @@ function init(plugin) {
   const icon = plugin.icon ? `https://raw.githubusercontent.com/${plugin.repository.repo}/${plugin.repository.branch}/${plugin.icon}` : "default_icon.png"
   const temp = `
   <div>
+    <div class="desc">
+      <img src="${icon}" class="icon" />
       <div>
-          <div class="icon"><img src="${icon}"></div>
-          <div>
-              <div>
-                  <span class="name" title="${plugin.name}">${plugin.name}</span>
-              </div>
-              <div>
-                  <span class="description" title="${plugin.description}">${plugin.description}</span>
-              </div>
-          </div>
+        <span class="name">${plugin.name}</span>
+        <span class="description">${plugin.description}</span>
       </div>
-      <div class="info">
-          <span>版本：${plugin.version}</span>
-          <span>开发：${plugin.authors[0].name}</span>
+    </div>
+    <div class="info">
+      <div>
+        <span class="version">版本：</span><span>${plugin.version}</span>
+        <span class="author">作者：</span
+        ><span>${plugin.authors[0].name}</span>
       </div>
-      <progress id="dowloadTagProgess"" max="100" value="0"></progress>
-      <div class="button">
-          <span id="dowloadTagText">准备中</span>
-          <button id="thebutton" type="button">${plugin.PIupdatemode ? "更新" : "安装"}</button>
-          <button id="more" type="button">详情</button>
-          <button id="quit" type="button">关闭</button>
-      </div>
+    </div>
+    <div class="action">
+      <progress id="dowloadTagProgess" max="100" value="0"></progress>
+      <span id="dowloadTagText">准备中</span>
+      <button id="quit" type="button">关闭</button>
+      <button id="more" type="button">详情</button>
+      <button id="thebutton" type="button">
+        ${plugin.PIupdatemode ? "更新" : "安装"}
+      </button>
+    </div>
   </div>
   `;
   const doc = new DOMParser().parseFromString(temp, "text/html");
@@ -68,7 +69,7 @@ function init(plugin) {
       dowload_tag = true;
       document.querySelector("#thebutton").disabled = true;
       document.querySelector("#dowloadTagProgess").style.display = "block";
-      document.querySelector("#dowloadTagText").style.display = "block";
+      document.querySelector("#dowloadTagText").style.display = "inline";
       plugininstaller.installPlugin(plugin);
     }else{
       plugininstaller.restart();

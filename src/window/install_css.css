@@ -7,56 +7,66 @@ button {
   -webkit-app-region: no-drag;
 }
 
-.name {
-  font-size: 20px;
-  font-weight: bold;
-}
-
-progress {
-  width: 98%;
-  position: absolute;
-  left: 50%;
-  bottom: 30px;
-  transform: translate(-50%, -50%);
-}
-
 #dowloadTagProgess,
 #dowloadTagText {
     display: none;
 }
 
-.app > div {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+#dowloadTagProgess {
+  width: auto;
+}
 
-  & > div {
+.action {
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  width: 580px;
+  padding: 10px;
+
+  & button{
+    margin-left: 5px;
+    float: right;
+  }
+}
+
+.desc {
+  & {
     display: flex;
-    align-items: center;
-    gap: 8px;
+    flex-direction: row;
   }
 
-  & .info {
-    display: flex;
-    gap: 8px;
+  & .icon {
+    width: 100px;
+    height: 100px;
+    margin: 5px;
+    border-radius: 10px;
+  }
 
-    & :nth-child(1) {
-      width: 120px;
+  & div {
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
+
+    & .name{
+      height: 25px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    & .description{
+      width: 450px;
+      height: 70px;
+      margin-top: 5px;
     }
   }
 }
 
-.button {
-  margin-top: 39px;
-
-  :nth-child(2) {
-    margin-left: auto;
+.info{
+  & div{
+    margin: 5px;
   }
-}
 
-.icon img {
-  width: 80px;
-  height: 80px;
-  border-radius: 8px;
+  & > div .author {
+    margin-left: 30px;
+  }
 }

@@ -15,9 +15,36 @@ a {
   }
 }
 
-.icon-common {
-  height: 100px;
-  margin: 5px 5px 5px 5px;
+.desc {
+  & {
+    display: flex;
+    flex-direction: row;
+  }
+
+  & .icon {
+    width: 100px;
+    height: 100px;
+    margin: 5px;
+    border-radius: 10px;
+  }
+
+  & div {
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
+
+    & .name{
+      height: 25px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    & .description{
+      width: 450px;
+      height: 70px;
+      margin-top: 5px;
+    }
+  }
 }
 
 .plugin-card {
@@ -25,51 +52,21 @@ a {
   flex-direction: column;
   width: 600px;
   height: 200px;
-  padding: 10px 10px 10px 10px;
-  margin: 20px 0px;
+  padding: 10px;
   box-shadow: 0 0 5px 1px #00000064;
   background-color: rgb(246, 246, 247);
   border-radius: 10px;
+  margin: 20px 0px;
 }
 
-.desc {
-  display: flex;
-}
+.info{
+  & div{
+    margin: 5px;
+  }
 
-.icon {
-  width: 100px;
-  border-radius: 10px;
-}
-
-.class-6 {
-  display: flex;
-  flex-direction: column;
-  width: 450px;
-}
-
-.class-4 {
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.class-5 {
-  margin-top: 5px;
-}
-
-.class-11 {
-  margin: 5px 5px 5px 5px;
-}
-
-.class-8 {
-  margin-left: 30px;
-}
-
-.class-12 {
-  margin: 5px 5px 5px 5px;
-}
-
-.class-17 {
-  margin: 5px 5px 5px 5px;
+  & > div .author {
+    margin-left: 30px;
+  }
 }
 
 .install {
