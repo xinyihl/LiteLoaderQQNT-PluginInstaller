@@ -40,7 +40,8 @@ async function init() {
           <div>
             <span>加载器版本：</span><span>${plugin.manifest_version}</span>
           </div>
-          <a href="llqqnt://plugininstaller/${plugin.repository.repo}/${plugin.repository.branch}/manifest.json" class="install">安装</a>
+          <a href="llqqnt://plugininstaller/${plugin.repository.repo}/${plugin.repository.branch}/manifest.json" class="link">安装</a>
+          <a href="https://github.com/${plugin.repository.repo}" class="link">详情</a>
         </div>
       </div>
       `;
