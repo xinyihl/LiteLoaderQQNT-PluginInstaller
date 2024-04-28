@@ -5,10 +5,10 @@
 > 其中 `URL Schemes` 功能 [mac](https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html#//apple_ref/doc/uid/TP40009249-102207-TPXREF115) & [linux](https://askubuntu.com/questions/514125/url-protocol-handlers-in-basic-ubuntu-desktop) 系统需要自行进行某些操作
 
 ### 功能
+- 检查&更新已启用的插件
 - 下载插件时显示下载进度、断点续传
 - 通过 `URL Schemes` 链接跳转 `QQ` 安装插件 [试一试](https://xinyihl.github.io/LiteLoaderQQNT-PluginInstaller/)
 - 在设置页面输入插件 `manifest.json` 文件访问链接安装插件
-- 更新插件（todo 懒得写页面, api 已经完成）
 
 #### URL Schemes 链接示例：   
 > llqqnt://plugininstaller/xinyihl/LiteLoaderQQNT-PluginInstaller/main/manifest.json \
