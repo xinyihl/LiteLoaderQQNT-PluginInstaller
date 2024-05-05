@@ -37,16 +37,17 @@ async function install(webContent, plugin) {
   try {
     const pluginDataPath = LiteLoader.plugins.plugininstaller.path.data;
     const fileName = `${plugin.slug} v${plugin.version}.zip`;
-    const cacheFilePath = path.join(pluginDataPath, fileName);
-    await installPlugin(webContent, plugin.PIurl, cacheFilePath, plugin);
+    const saveFilePath = path.join(pluginDataPath, fileName);
+    if (!fs.existsSync(pluginDataPath)) fs.mkdirSync(pluginDataPath, { recursive: true });
+    await installPlugin(webContent, plugin.PIurl, saveFilePath, plugin);
   } catch (error) {
     dialog.showErrorBox( "PluginInstaller install", error.stack || error.message);
   }
 }
 
-async function installPlugin(webContent, fileURL, fileSavePath, plugin) {
-  let tmpFileSavePath = fileSavePath + ".tmp";
-  let cfgFileSavePath = fileSavePath + ".cfg.json";
+async function installPlugin(webContent, fileURL, saveFilePath, plugin) {
+  let tmpFileSavePath = saveFilePath + ".tmp";
+  let cfgFileSavePath = saveFilePath + ".cfg.json";
 
   let downCfg = {
     rh: {}, //请求头
@@ -155,7 +156,7 @@ async function installPlugin(webContent, fileURL, fileSavePath, plugin) {
 
             fs.mkdirSync(plugin_path, { recursive: true });
 
-            const zip = new StreamZip.async({ file: fileSavePath });
+            const zip = new StreamZip.async({ file: saveFilePath });
             const entries = await zip.entries();
             const isFolder = !entries.hasOwnProperty("manifest.json");
 

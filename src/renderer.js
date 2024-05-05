@@ -61,7 +61,7 @@ async function pluginupdate(view) {
         </setting-item>
         `;
         const dom = new DOMParser().parseFromString(temp, "text/html");
-        dom.querySelector(".update").addEventListener("click", debounce(plugininstaller.updateBySlug(plugin.slug), 500));
+        dom.querySelector(".update").addEventListener("click",  debounce(() => plugininstaller.updateBySlug(plugin.slug), 500));
         update_list.appendChild(dom.querySelector("setting-item"));
     })
 }
