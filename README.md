@@ -8,7 +8,9 @@
 - 检查&更新已启用的插件
 - 下载插件时显示下载进度、断点续传
 - 通过 `URL Schemes` 跳转 `QQ` 安装插件 [试一试](https://xinyihl.github.io/LiteLoaderQQNT-PluginInstaller/)
-- 通过插件 `manifest.json` 文件访问链接安装插件 (即对应插件仓库文件的 raw 链接)
+- 通过插件 `manifest.json` 文件访问链接安装插件
+  > 即对应插件仓库文件的 raw.githubusercontent.com 源码链接 \
+    获取方式为点击 `manifest.json` 文件页面右上角 `Raw` 按钮
 
 ### 使用方法
 1. 下载最新 [发行版](https://github.com/xinyihl/LiteLoaderQQNT-PluginInstaller/releases) 并解压
@@ -24,9 +26,12 @@
 - 其他插件开发者
 
 ### 对于插件开发者：   
-> - **插件 api** \
-> 使用 `LiteLoader.api.openPluginInfoWindow(slug)` 打开弹窗，本插件会自动判断是否为更新模式 \
-> 在您仓库的 `manifest.json` 文件中添加 `"PIinstall": false` 来禁止本插件自动安装
-> - **URL Schemes 示例:** \
-> llqqnt://plugininstaller/xinyihl/LiteLoaderQQNT-PluginInstaller/main/manifest.json \
-> 即将仓库的 `manifest.json` 文件访问链接的 `https://raw.githubusercontent.com` 改为 `llqqnt://plugininstaller`
+```
+插件添加的 api:
+ 使用 `LiteLoader.api.openPluginInfoWindow(slug)` 打开弹窗，本插件会自动判断是否为更新模式 
+ 在您仓库的 `manifest.json` 文件中添加 `"PIinstall": false` 来禁止本插件自动安装
+
+URL Schemes 示例:
+ llqqnt://plugininstaller/xinyihl/LiteLoaderQQNT-PluginInstaller/main/manifest.json
+ 即将仓库的 `manifest.json` 文件访问链接的 `https://raw.githubusercontent.com` 改为 `llqqnt://plugininstaller`
+```
