@@ -19,6 +19,7 @@ async function init() {
     plugins
       .filter((notNull) => notNull)
       .forEach((plugin) => {
+        if (!plugin.repository) return;
         const icon = plugin.icon ? `https://raw.githubusercontent.com/${plugin.repository.repo}/${plugin.repository.branch}/${plugin.icon}` : "default_icon.png"
         const temp = `
       <div class="plugin-card">
