@@ -17,8 +17,8 @@ async function init() {
   }
   Promise.all(list).then((plugins) => {
     plugins
-      .filter((notNull) => notNull)
-      .forEach((plugin) => {
+      。filter((notNull) => notNull)
+      。forEach((plugin) => {
         if (!plugin.repository) return;
         const icon = plugin.icon ? `https://raw.githubusercontent.com/${plugin.repository.repo}/${plugin.repository.branch}/${plugin.icon}` : "default_icon.png"
         const temp = `
@@ -33,7 +33,7 @@ async function init() {
         <div class="info">
           <div>
             <span class="version">版本：</span><span>${plugin.version}</span>
-            <span class="author">作者：</span><a href="${plugin.authors[0].link}">${plugin.authors[0].name}</a>
+            <span class="author">作者：</span><a href="${plugin.authors[0].link}" title="点击打开 ${plugin.authors[0].name} 作者首页" >${plugin.authors[0].name}</a>
           </div>
           <div>
             <span>支持平台：</span><span>${plugin.platform}</span>
@@ -41,8 +41,8 @@ async function init() {
           <div>
             <span>加载器版本：</span><span>${plugin.manifest_version}</span>
           </div>
-          <a href="llqqnt://plugininstaller/${plugin.repository.repo}/${plugin.repository.branch}/manifest.json" class="link">安装</a>
-          <a href="https://github.com/${plugin.repository.repo}" class="link">详情</a>
+          <a href="llqqnt://plugininstaller/${plugin.repository.repo}/${plugin.repository.branch}/manifest.json" title="点击安装 ${plugin.name}" class="link">安装</a>
+          <a href="https://github.com/${plugin.repository.repo}" title="点击打开 ${plugin.name} 仓库" class="link">详情</a>
         </div>
       </div>
       `;
