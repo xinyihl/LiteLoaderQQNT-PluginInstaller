@@ -4,21 +4,15 @@ const { UorI } = require("./main_models/pluginApi.js");
 const fetch = require("node-fetch");
 const path = require("path");
 
-let plugin_data;
-let plugin_update_data;
+let plugin_data; // 插件信息缓存
+let plugin_update_data; // 插件更新信息缓存
 
 app.whenReady().then(() => {
   if(!LiteLoader.plugins["protocio"]) return;
-  LiteLoader.api.registerUrlHandler("plugininstaller", (rest, all) => {
-    const url = `https://raw.githubusercontent.com/` + rest.join("/");
-    openPluginInfoWindow(url);
-  });
+  LiteLoader.api.registerUrlHandler("plugininstaller", (rest, all) => { openPluginInfoWindow(`https://raw.githubusercontent.com/` + rest.join("/"))});
 });
 
-ipcMain.on("LiteLoader.plugininstaller.restart", (event) => {
-  app.relaunch();
-  app.exit();
-});
+ipcMain.on("LiteLoader.plugininstaller.restart", (event) => { app.relaunch(); app.exit() });
 
 ipcMain.handle("LiteLoader.plugininstaller.chackPluginUpdate", async (event, slug) => await chackPluginUpdate(slug));
 
@@ -39,6 +33,7 @@ ipcMain.on("LiteLoader.plugininstaller.log", (event, level, ...args) => console[
 ipcMain.on("LiteLoader.plugininstaller.WindowShow", (event) => BrowserWindow.fromWebContents(event.sender).show());
 
 async function initPluginData(url) {
+  if (plugin_data && plugin_data.PIInfoUrl == url) return;
   try {
     plugin_data = await (await fetch(url, await fetchOptions())).json();
     const isInstall = LiteLoader.plugins[plugin_data.slug] ? true : false;
@@ -50,6 +45,8 @@ async function initPluginData(url) {
     plugin_data.PIupdatemode = isInstall ? plugin_data.version > LiteLoader.plugins[plugin_data.slug].manifest.version : false;
     if(!plugin_data.PIinstall) plugin_data.PIinstall = isInstall ?  LiteLoader.plugins[plugin_data.slug].manifest.version != plugin_data.version : true;
     
+    plugin_data.PIInfoUrl = url;
+
   } catch (error) {
     console.error("[Plugininstaller initPluginData]", error);
   }
