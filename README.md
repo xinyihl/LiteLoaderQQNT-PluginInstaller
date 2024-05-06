@@ -9,8 +9,6 @@
 - 下载插件时显示下载进度、断点续传
 - 通过 `URL Schemes` 跳转 `QQ` 安装插件 [试一试](https://xinyihl.github.io/LiteLoaderQQNT-PluginInstaller/)
 - 通过插件 `manifest.json` 文件访问链接安装插件
-  > 即对应插件仓库文件的 raw.githubusercontent.com 源码链接 \
-    获取方式为点击 `manifest.json` 文件页面右上角 `Raw` 按钮
 
 ### 使用方法
 1. 下载最新 [发行版](https://github.com/xinyihl/LiteLoaderQQNT-PluginInstaller/releases) 并解压
