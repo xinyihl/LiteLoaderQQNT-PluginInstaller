@@ -26,10 +26,10 @@ export const onSettingWindowCreated = async view => {
 
         button2.addEventListener("click", debounce(() => {
             view.querySelector(".update-list").innerHTML = ""
-            pluginupdate(view);
+            pluginupdate(view, false);
         }, 500))
 
-        pluginupdate(view);
+        pluginupdate(view, true);
     }catch (e) {
         console.error(e);
     }
@@ -45,9 +45,9 @@ function debounce(func, delay) {
     };
 }
 
-async function pluginupdate(view) {
+async function pluginupdate(view, slug) {
     const update_list = view.querySelector(".update-list");
-    const update = await plugininstaller.chackPluginUpdate()
+    const update = await plugininstaller.chackPluginUpdate(slug)
     update.forEach((plugin) => {
         const temp = `
         <setting-item data-direction="row">

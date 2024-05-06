@@ -5,6 +5,7 @@ const fetch = require("node-fetch");
 const path = require("path");
 
 let plugin_data;
+let plugin_update_data;
 
 app.whenReady().then(() => {
   if(!LiteLoader.plugins["protocio"]) return;
@@ -19,7 +20,7 @@ ipcMain.on("LiteLoader.plugininstaller.restart", (event) => {
   app.exit();
 });
 
-ipcMain.handle("LiteLoader.plugininstaller.chackPluginUpdate", async (event) => await chackPluginUpdate());
+ipcMain.handle("LiteLoader.plugininstaller.chackPluginUpdate", async (event, slug) => await chackPluginUpdate(slug));
 
 ipcMain.on("LiteLoader.plugininstaller.installByUrl", (event, url) => openPluginInfoWindow(url));
 
@@ -87,34 +88,38 @@ function openPluginInfoWindowBySlug(slug) {
   openPluginInfoWindow(url)
 }
 
-async function chackPluginUpdate() {
-
-  let list = [];
-  let update = [];
-  for (const [slug, plugin] of Object.entries(LiteLoader.plugins)) {
-    if (plugin.disabled || plugin.incompatible) {
-      continue;
+async function chackPluginUpdate(slug) {
+  if (slug && plugin_update_data) {
+    return plugin_update_data;
+  } else {
+    let list = [];
+    let update = [];
+    for (const [slug, plugin] of Object.entries(LiteLoader.plugins)) {
+      if (plugin.disabled || plugin.incompatible) {
+        continue;
+      }
+      list.push(
+        (async () => {
+          try {
+            return await (await fetch(`https://raw.githubusercontent.com/${plugin.manifest.repository.repo}/${plugin.manifest.repository.branch}/manifest.json`, await fetchOptions())).json();
+          } catch {
+            return Promise.resolve(null);
+          }
+        })()
+      );
     }
-    list.push(
-      (async () => {
-        try {
-          return await (await fetch(`https://raw.githubusercontent.com/${plugin.manifest.repository.repo}/${plugin.manifest.repository.branch}/manifest.json`, await fetchOptions())).json();
-        } catch {
-          return Promise.resolve(null);
-        }
-      })()
-    );
+
+    const plugins = await Promise.all(list)
+    plugins.filter((notNull) => notNull).forEach((plugin) => {
+      if (plugin.version > LiteLoader.plugins[plugin.slug].manifest.version) {
+        plugin.PIoldversion = LiteLoader.plugins[plugin.slug].manifest.version;
+        update.push(plugin);
+      }
+    })
+
+    plugin_update_data = update;
+    return update;
   }
-
-  const plugins = await Promise.all(list)
-  plugins.filter((notNull) => notNull).forEach((plugin) => {
-    if(plugin.version > LiteLoader.plugins[plugin.slug].manifest.version) {
-      plugin.PIoldversion = LiteLoader.plugins[plugin.slug].manifest.version;
-      update.push(plugin);
-    }
-  })
-
-  return update;
 }
 
 LiteLoader.api.openPluginInfoWindow = openPluginInfoWindowBySlug;

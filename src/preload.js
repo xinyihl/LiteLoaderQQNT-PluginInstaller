@@ -5,5 +5,5 @@ contextBridge.exposeInMainWorld("plugininstaller", {
     openWeb: (url) => ipcRenderer.send("LiteLoader.plugininstaller.openWeb", url),
     installByUrl: (url) => ipcRenderer.send("LiteLoader.plugininstaller.installByUrl", url),
     updateBySlug: (slug) => ipcRenderer.send("LiteLoader.plugininstaller.updateBySlug", slug),
-    chackPluginUpdate: () => ipcRenderer.invoke("LiteLoader.plugininstaller.chackPluginUpdate")
+    chackPluginUpdate: (slug) => ipcRenderer.invoke("LiteLoader.plugininstaller.chackPluginUpdate", slug)
 });
