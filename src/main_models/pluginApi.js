@@ -142,7 +142,7 @@ async function installPlugin(webContent, fileURL, saveFilePath, plugin) {
         .on("ready", () => { webContent.send("LiteLoader.plugininstaller.UpdateInfo", { text: "开始下载", progressData: null }); })
         .on("finish", async () => {
 
-          fs.renameSync(tmpFileSavePath, fileSavePath);
+          fs.renameSync(tmpFileSavePath, saveFilePath);
           fs.unlinkSync(cfgFileSavePath);
 
           webContent.send("LiteLoader.plugininstaller.UpdateInfo", { text: "下载完成", progressData: null });

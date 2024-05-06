@@ -1,13 +1,13 @@
 {
     "name": "liteloaderqqnt-plugininstaller",
-    "version": "1.2.4",
+    "version": "1.2.5",
     "description": "",
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "xinyihl",
-    "license": "ISC",
+    "license": "MIT",
     "dependencies": {
         "get-proxy-settings": "^0.1.13",
         "https-proxy-agent": "^7.0.4",
