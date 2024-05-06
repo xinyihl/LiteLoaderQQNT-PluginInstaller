@@ -17,8 +17,8 @@ async function init() {
   }
   Promise.all(list).then((plugins) => {
     plugins
-      。filter((notNull) => notNull)
-      。forEach((plugin) => {
+      .filter((notNull) => notNull)
+      .forEach((plugin) => {
         if (!plugin.repository) return;
         const icon = plugin.icon ? `https://raw.githubusercontent.com/${plugin.repository.repo}/${plugin.repository.branch}/${plugin.icon}` : "default_icon.png"
         const temp = `
