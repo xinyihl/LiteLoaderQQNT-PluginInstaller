@@ -6,6 +6,7 @@ const path = require("path");
 
 let plugin_data; // 插件信息缓存
 let plugin_update_data; // 插件更新信息缓存
+let apiLimit = false; // github API调用是否被限制
 
 app.whenReady().then(() => {
   if(!LiteLoader.plugins["protocio"]) return;
@@ -39,9 +40,16 @@ async function initPluginData(url) {
     const isInstall = LiteLoader.plugins[plugin_data.slug] ? true : false;
     const downloadtemp = await (await fetch(`https://api.github.com/repos/${plugin_data.repository.repo}/releases/latest`, await fetchOptions())).json();
 
-    plugin_data.PIurl = downloadtemp.url ? downloadtemp.assets[0] ? downloadtemp.assets[0].browser_download_url : downloadtemp.zipball_url : `https://github.com/${plugin_data.repository.repo}/archive/${plugin_data.repository.branch}.zip`;
-
-
+    if(!downloadtemp.message && !apiLimit){
+      plugin_data.PIurl = downloadtemp.assets[0] ? downloadtemp.assets[0].browser_download_url : downloadtemp.zipball_url;
+    }else{
+      plugin_data.PIurl = plugin_data.repository?.release.file ? `https://github.com/${plugin_data.repository.repo}/releases/latest/download/${plugin_data.repository?.release?.file}` : `https://github.com/${plugin_data.repository.repo}/archive/${plugin_data.repository.branch}.zip`
+      
+      if(downloadtemp.message.includes("API rate limit")){
+        apiLimit = true;
+      }
+    }
+    
     plugin_data.PIupdatemode = isInstall ? plugin_data.version > LiteLoader.plugins[plugin_data.slug].manifest.version : false;
     if(!plugin_data.PIinstall) plugin_data.PIinstall = isInstall ?  LiteLoader.plugins[plugin_data.slug].manifest.version != plugin_data.version : true;
     
