@@ -25,11 +25,14 @@
 
 ### 对于插件开发者：   
 ```
+插件添加的特性:
+ 在您仓库的 manifest.json 文件中添加 "PIinstall": false 来禁止本插件自动安装
+
 插件添加的 api:
- 使用 `LiteLoader.api.openPluginInfoWindow(slug)` 打开弹窗，本插件会自动判断是否为更新模式 
- 在您仓库的 `manifest.json` 文件中添加 `"PIinstall": false` 来禁止本插件自动安装
+ LiteLoader.api.openPluginInfoWindow(slug) - 仅限主线程使用
+ 打开弹窗，本插件会自动判断是否为更新模式，如果要在渲染线程调用弹窗可以使用本插件内部的api: plugininstaller.updateBySlug(slug)
 
 URL Schemes 示例:
  llqqnt://plugininstaller/xinyihl/LiteLoaderQQNT-PluginInstaller/main/manifest.json
- 即将仓库的 `manifest.json` 文件访问链接的 `https://raw.githubusercontent.com` 改为 `llqqnt://plugininstaller`
+ 即将仓库的 manifest.json 文件访问链接的 https://raw.githubusercontent.com 改为 llqqnt://plugininstaller
 ```
