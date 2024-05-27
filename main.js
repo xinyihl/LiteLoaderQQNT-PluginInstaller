@@ -1,5 +1,16 @@
 async function init() {
   const app = document.querySelector(".app");
+  const searchParams = new URLSearchParams(window.location.search);
+  const link = searchParams.get('link')
+  if(link){
+    console.log("自动跳转", link)
+    window.location.href = link;
+    const temp = `<p>如果没有自动跳转，请点击<a href="${link}">这里</a>.</p>`;
+    const doc = new DOMParser().parseFromString(temp, "text/html");
+    app.appendChild(doc.querySelector("p"));
+    return;
+  }
+
   const plugins = await (
     await fetch("https://raw.githubusercontent.com/LiteLoaderQQNT/Plugin-List/v4/plugins.json")
   ).json();
@@ -47,9 +58,8 @@ async function init() {
       </div>
       `;
         const doc = new DOMParser().parseFromString(temp, "text/html");
-        document.querySelector(".app").appendChild(doc.querySelector("div"));
+        app.appendChild(doc.querySelector("div"));
       });
   });
 }
-
-window.onload = init();
+init();
