@@ -39,13 +39,13 @@ async function install(webContent, plugin) {
     const fileName = `${plugin.slug} v${plugin.version}.zip`;
     const saveFilePath = path.join(pluginDataPath, fileName);
     if (!fs.existsSync(pluginDataPath)) fs.mkdirSync(pluginDataPath, { recursive: true });
-    await installPlugin(webContent, plugin.PIurl, saveFilePath, plugin);
+    await dowloadPlugin(webContent, plugin.PIurl, saveFilePath, plugin);
   } catch (error) {
     dialog.showErrorBox( "PluginInstaller install", error.stack || error.message);
   }
 }
 
-async function installPlugin(webContent, fileURL, saveFilePath, plugin) {
+async function dowloadPlugin(webContent, fileURL, saveFilePath, plugin) {
   let tmpFileSavePath = saveFilePath + ".tmp";
   let cfgFileSavePath = saveFilePath + ".cfg.json";
 

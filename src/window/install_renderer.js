@@ -5,18 +5,17 @@ window.onload = async () => {
 
     init(plugin);
 
-    const dowloadTagProgess = document.querySelector("#dowloadTagProgess")
-    const dowloadTagText = document.querySelector("#dowloadTagText")
+    const dowloadTagProgess = document.querySelector("#dowloadTagProgess");
+    const dowloadTagText = document.querySelector("#dowloadTagText");
+    const button = document.querySelector("#thebutton");
     
     plugininstaller.onUpdateInfo((tag) => {
       dowloadTagText.textContent = tag.text;
       if(tag.progressData){
         dowloadTagProgess.value = tag.progressData.percentage;
       }
-
       if(tag.text === "安装完成"){
         if(plugin.PIupdatemode) dowloadTagText.textContent = "更新完成";
-        const button = document.querySelector("#thebutton");
         button.textContent = "重启";
         button.disabled = false;
       }
