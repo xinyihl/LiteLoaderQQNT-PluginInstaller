@@ -1,8 +1,6 @@
 .plugininstaller .input-text {
     height: 24px;
     flex-grow: 1;
-    margin-right: 16px;
-    margin-left: 16px;
     padding-left: 5px;
     padding-right: 5px;
     background-color: var(--overlay_active);
@@ -11,18 +9,17 @@
 
 .plugininstaller .ops-btns {
     display: flex;
-    margin-right: 16px;
-}
-
-.plugininstaller .vertical-list-item.title {
-    margin-left: 16px;
 }
 
 .plugininstaller .vertical-list-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 12px 0px;
+    padding: 12px 16px;
+}
+
+.plugininstaller .select-path.vertical-list-item {
+    padding-top: 0px;
 }
 
 .plugininstaller .secondary-text {
