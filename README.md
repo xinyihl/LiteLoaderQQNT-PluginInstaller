@@ -25,6 +25,7 @@
 - 其他插件开发者
 
 ### 对于插件开发者：   
+插件默认下载 `latest releases` 当目标仓库不存在 `releases` 时采用源码安装
 ```
 插件添加的特性:
  在您仓库的 manifest.json 文件中添加 "PIinstall": false 来禁止本插件自动安装
