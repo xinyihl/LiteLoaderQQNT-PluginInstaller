@@ -67,13 +67,6 @@ async function openPluginInfoWindow(url) {
     width: 600,
     height: 200,
     webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false,
-      devTools: true,
-      plugins: true,
-      sandbox: true,
-      webviewTag: true,
-      webSecurity: false,
       preload: path.join(__dirname, "window/install_preload.js"),
     },
   });
