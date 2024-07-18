@@ -67,10 +67,10 @@ async function openPluginInfoWindow(url) {
     width: 600,
     height: 200,
     webPreferences: {
-      preload: path.join(__dirname, "window/install_preload.js"),
+      preload: path.join(__dirname, "../src/window/install_preload.js"),
     },
   });
-  installWindow.loadFile(path.join(__dirname, "window/install.html"));
+  installWindow.loadFile(path.join(__dirname, "../src/window/install.html"));
 }
 
 function openPluginInfoWindowBySlug(slug) {
