@@ -27,7 +27,7 @@
         "darwin"
     ],
     "injects": {
-        "main": "./src/main.js",
+        "main": "./dist/main.js",
         "preload": "./src/preload.js",
         "renderer": "./src/renderer.js"
     }

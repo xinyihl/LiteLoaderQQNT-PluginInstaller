@@ -4,15 +4,20 @@
     "description": "",
     "main": "index.js",
     "scripts": {
+        "build": "node esbuild.config.mjs",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "xinyihl",
     "license": "MIT",
+    "devDependencies": {
+    "esbuild": "^0.20.2"
+  },
     "dependencies": {
         "get-proxy-settings": "^0.1.13",
         "https-proxy-agent": "^7.0.4",
         "node-fetch": "^2.7.0",
         "node-stream-zip": "^1.15.0",
-        "progress-stream": "^2.0.0"
+        "progress-stream": "^2.0.0",
+        "electron": "^30.0.1"
     }
 }
