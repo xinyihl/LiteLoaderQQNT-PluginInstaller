@@ -1,6 +1,6 @@
 {
     "name": "liteloaderqqnt-plugininstaller",
-    "version": "1.2.8",
+    "version": "1.3.0",
     "description": "",
     "main": "index.js",
     "scripts": {
@@ -10,8 +10,8 @@
     "author": "xinyihl",
     "license": "MIT",
     "devDependencies": {
-    "esbuild": "^0.20.2"
-  },
+        "esbuild": "^0.20.2"
+    },
     "dependencies": {
         "get-proxy-settings": "^0.1.13",
         "https-proxy-agent": "^7.0.4",
