@@ -37,7 +37,7 @@ async function initPluginData(url) {
   if (plugin_data && plugin_data.PIInfoUrl == url) return;
   try {
     plugin_data = await (await fetch(url, await fetchOptions())).json();
-    plugin_data.PIurl = plugin_data.repository?.release.file ? `https://github.com/${plugin_data.repository.repo}/releases/latest/download/${plugin_data.repository?.release?.file}` : `https://github.com/${plugin_data.repository.repo}/archive/${plugin_data.repository.branch}.zip`;
+    plugin_data.PIurl = plugin_data.repository?.release?.file ? `https://github.com/${plugin_data.repository.repo}/releases/latest/download/${plugin_data.repository?.release?.file}` : `https://github.com/${plugin_data.repository.repo}/archive/${plugin_data.repository.branch}.zip`;
     
     // 当 github API 未被限制时使用 github API 获取下载地址
     if(!apiLimit){
