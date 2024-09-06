@@ -1,6 +1,6 @@
 const { ipcMain, app, shell, BrowserWindow } = require("electron");
-const { fetchOptions } = require("./main_models/options.js");
-const { UorI } = require("./main_models/pluginApi.js");
+const { fetchOptions } = require("./main_modules/options.js");
+const { UorI } = require("./main_modules/pluginApi.js");
 const fetch = require("node-fetch");
 const path = require("path");
 
@@ -10,14 +10,18 @@ let apiLimit = false; // github API调用是否被限制
 
 app.whenReady().then(() => {
   if(!LiteLoader.plugins["protocio"]) return;
-  LiteLoader.api.registerUrlHandler("plugininstaller", (rest, all) => { openPluginInfoWindow(`https://raw.githubusercontent.com/` + rest.join("/"))});
+  LiteLoader.api.registerUrlHandler("plugininstaller", async (rest, all) => {
+    const url = `https://raw.githubusercontent.com/` + rest.join("/");
+    await initPluginData(url); 
+    openPluginInfoWindow();
+  });
 });
 
-ipcMain.on("LiteLoader.plugininstaller.restart", (event) => { app.relaunch(); app.exit() });
+ipcMain.on("LiteLoader.plugininstaller.restart", (event) => { app.relaunch(); app.exit(); });
 
-ipcMain.handle("LiteLoader.plugininstaller.chackPluginUpdate", async (event, slug) => await chackPluginUpdate(slug));
+ipcMain.handle("LiteLoader.plugininstaller.chackPluginUpdate", (event, slug) => chackPluginUpdate(slug));
 
-ipcMain.on("LiteLoader.plugininstaller.installByUrl", (event, url) => openPluginInfoWindow(url));
+ipcMain.on("LiteLoader.plugininstaller.installByUrl", async (event, url) => { await initPluginData(url); openPluginInfoWindow();});
 
 ipcMain.on("LiteLoader.plugininstaller.updateBySlug", (event, slug) => openPluginInfoWindowBySlug(slug));
 
@@ -33,17 +37,34 @@ ipcMain.on("LiteLoader.plugininstaller.log", (event, level, ...args) => console[
 
 ipcMain.on("LiteLoader.plugininstaller.WindowShow", (event) => BrowserWindow.fromWebContents(event.sender).show());
 
+ipcMain.handle("LiteLoader.plugininstaller.initUpdatePluginData", (event, slug) => initUpdatePluginData(slug));
+
+ipcMain.on("LiteLoader.plugininstaller.openPluginInfoWindow", (event) => openPluginInfoWindow());
+
+async function initUpdatePluginData(slug) {
+  const isInstall = LiteLoader.plugins[slug] ? true : false;
+  if(!isInstall) {
+    console.error("[Plugininstaller openPluginInfoWindow]", slug, "Plugin not found");
+    return;
+  }
+  const plugin = LiteLoader.plugins[slug].manifest;
+  const url = `https://raw.githubusercontent.com/${plugin.repository.repo}/${plugin.repository.branch}/manifest.json`;
+  await initPluginData(url);
+  return plugin_data;
+}
+
 async function initPluginData(url) {
   if (plugin_data && plugin_data.PIInfoUrl == url) return;
   try {
     plugin_data = await (await fetch(url, await fetchOptions())).json();
     plugin_data.PIurl = plugin_data.repository?.release?.file ? `https://github.com/${plugin_data.repository.repo}/releases/latest/download/${plugin_data.repository?.release?.file}` : `https://github.com/${plugin_data.repository.repo}/archive/${plugin_data.repository.branch}.zip`;
-    
+    plugin_data.PIUpdateBody = "# github API 超限无法获取更新日志";
     // 当 github API 未被限制时使用 github API 获取下载地址
     if(!apiLimit){
       const downloadtemp = await (await fetch(`https://api.github.com/repos/${plugin_data.repository.repo}/releases/latest`, await fetchOptions())).json();
       if(downloadtemp.message?.includes("API rate limit")){ apiLimit = true; }
       if(downloadtemp.assets){ plugin_data.PIurl = downloadtemp.assets[0] ? downloadtemp.assets[0].browser_download_url : downloadtemp.zipball_url; }
+      if(downloadtemp.body){plugin_data.PIUpdateBody = downloadtemp.body;}
     }
 
     const isInstall = LiteLoader.plugins[plugin_data.slug] ? true : false;
@@ -58,8 +79,7 @@ async function initPluginData(url) {
   }
 }
 
-async function openPluginInfoWindow(url) {
-  await initPluginData(url);
+async function openPluginInfoWindow() {
   const installWindow = new BrowserWindow({
     frame: false,
     resizable: false,
@@ -73,7 +93,7 @@ async function openPluginInfoWindow(url) {
   installWindow.loadFile(path.join(__dirname, "../src/window/install.html"));
 }
 
-function openPluginInfoWindowBySlug(slug) {
+async function openPluginInfoWindowBySlug(slug) {
   const isInstall = LiteLoader.plugins[slug] ? true : false;
   if(!isInstall) {
     console.error("[Plugininstaller openPluginInfoWindow]", slug, "Plugin not found");
@@ -81,7 +101,8 @@ function openPluginInfoWindowBySlug(slug) {
   }
   const plugin = LiteLoader.plugins[slug].manifest;
   const url = `https://raw.githubusercontent.com/${plugin.repository.repo}/${plugin.repository.branch}/manifest.json`;
-  openPluginInfoWindow(url);
+  await initPluginData(url);
+  openPluginInfoWindow();
 }
 
 async function chackPluginUpdate(slug) {

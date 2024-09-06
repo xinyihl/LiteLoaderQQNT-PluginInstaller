@@ -1,3 +1,5 @@
+import {openChangeLog} from "./render_modules/openChangeLog.js";
+import {simpleMarkdownToHTML} from "./render_modules/simpleMarkdownToHTML.js";
 const plugin_path = LiteLoader.plugins["plugininstaller"].path.plugin;
 
 export const onSettingWindowCreated = async view => {
@@ -44,14 +46,26 @@ async function pluginupdate(view, slug) {
                 <span class="secondary-text">${plugin.PIoldversion} -> ${plugin.version}</span>
             </div>
             <div>
-                <button class="q-button q-button--small q-button--secondary update">更新</button>
+                <button class="q-button q-button--small q-button--secondary update">详情</button>
             </div>
         </setting-item>
         `;
         const dom = new DOMParser().parseFromString(temp, "text/html");
-        dom.querySelector(".update").addEventListener("click",  debounce(() => plugininstaller.updateBySlug(plugin.slug), 500));
+        dom.querySelector(".update").addEventListener("click",  debounce(async () => {
+            const d = await plugininstaller.initUpdatePluginData(plugin.slug);
+            openChangeLog(simpleMarkdownToHTML(d.PIUpdateBody, plugin.repository?.repo))
+            //plugininstaller.updateBySlug(plugin.slug)
+        }, 500));
         update_list.appendChild(dom.querySelector("setting-item"));
     })
+    view.addEventListener("click", (e) => {
+        if (e.target.tagName === "A") {
+          const href = e.target.getAttribute("data-href");
+          if (href) {
+            plugininstaller.openWeb(href);
+          }
+        }
+      });
 }
 
 function handleURL(url) {
