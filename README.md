@@ -4,6 +4,11 @@
 > 该插件仅在 Windows 环境下开发&测试，未对其他平台进行测试，不保证可用性 \
 > 其中 `URL Schemes` 功能 [mac](https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html#//apple_ref/doc/uid/TP40009249-102207-TPXREF115) & [linux](https://askubuntu.com/questions/514125/url-protocol-handlers-in-basic-ubuntu-desktop) 系统需要自行进行额外操作
 
+> [!WARNING]\
+> 由于本插件使用 [REST API](https://docs.github.com/zh/rest) 请求相关数据 \
+> 请勿频繁打开不同插件的下载界面&更新日志，可能会导致超过 API 速率限制 `每小时 60 个请求` \
+> 对于同一个插件，本插件内部使用了缓存机制则无限制
+
 ### 功能
 - 检查&更新已启用的插件
 - 下载插件时显示下载进度、断点续传
