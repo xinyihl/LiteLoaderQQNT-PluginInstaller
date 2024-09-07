@@ -18,6 +18,15 @@ export const onSettingWindowCreated = async view => {
         const button2 = view.querySelector(".plugininstaller-chackpluginupdate");
         button2.addEventListener("click", debounce(() => { pluginupdate(view, false) }, 500));
 
+        var startTime, url = "https://raw.githubusercontent.com/", img = new Image();
+        img.onerror = () => {
+            startTime = new Date() - startTime;
+            console.log(url + "    ：" + startTime + "ms");
+            view.querySelector('.time').textContent = startTime + "ms";
+        };
+        img.src = url;
+        startTime = new Date();
+        
         pluginupdate(view, true);
     }catch (e) {
         console.error(e);
