@@ -15,7 +15,7 @@ window.onload = async () => {
         dowloadTagProgess.value = tag.progressData.percentage;
       }
       if(tag.text === "安装完成"){
-        if(plugin.PIupdatemode) dowloadTagText.textContent = "更新完成";
+        if(plugin.PIinstall === 1 | plugin.PIinstall === 2) dowloadTagText.textContent = "更新完成";
         button.textContent = "重启";
         button.disabled = false;
       }
@@ -52,7 +52,7 @@ function init(plugin) {
       <button id="quit" type="button">关闭</button>
       <button id="more" type="button">详情</button>
       <button id="thebutton" type="button">
-        ${plugin.PIupdatemode ? "更新" : "安装"}
+        ${(plugin.PIinstall === 1 | plugin.PIinstall === 2) ? "更新" : "安装"}
       </button>
     </div>
   </div>
@@ -61,7 +61,27 @@ function init(plugin) {
 
   document.querySelector(".app").appendChild(doc.querySelector("div"));
 
-  document.querySelector("#thebutton").disabled = !plugin.PIinstall;
+  switch (plugin.PIinstall) {
+    case 0:
+      document.querySelector("#thebutton").disabled = true;
+      document.querySelector("#dowloadTagText").textContent = "插件作者禁用自动安装";
+      document.querySelector("#dowloadTagText").style.display = "inline";
+      break; 
+    case 1:
+      document.querySelector("#thebutton").disabled = false;
+      break;
+    case 2:
+      document.querySelector("#thebutton").disabled = true;
+      document.querySelector("#dowloadTagText").textContent = "插件已安装且无需更新";
+      document.querySelector("#dowloadTagText").style.display = "inline";
+      break;
+    case 3:
+      document.querySelector("#thebutton").disabled = false;
+      break;
+    default:
+      document.querySelector("#thebutton").disabled = true;
+      break;
+  }
 
   document.querySelector("#thebutton").addEventListener("click", () => {
     if(!dowload_tag){

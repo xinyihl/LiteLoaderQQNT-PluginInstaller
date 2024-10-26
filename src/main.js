@@ -69,9 +69,20 @@ async function initPluginData(url) {
 
     const isInstall = LiteLoader.plugins[plugin_data.slug] ? true : false;
     
-    plugin_data.PIupdatemode = isInstall ? plugin_data.version > LiteLoader.plugins[plugin_data.slug].manifest.version : false;
-    if(!plugin_data.PIinstall) plugin_data.PIinstall = isInstall ?  LiteLoader.plugins[plugin_data.slug].manifest.version != plugin_data.version : true;
-    
+    if(plugin_data.PIinstall === false) {
+      plugin_data.PIinstall = 0; // 插件作者禁用自动安装
+    }else{
+      if(isInstall){
+        if(LiteLoader.plugins[plugin_data.slug].manifest.version != plugin_data.version){
+          plugin_data.PIinstall = 1; // 插件需要更新
+        }else{
+          plugin_data.PIinstall = 2; // 插件已安装且无需更新
+        }
+      }else{
+        plugin_data.PIinstall = 3; // 插件未安装
+      }
+    }
+
     plugin_data.PIInfoUrl = url;
 
   } catch (error) {

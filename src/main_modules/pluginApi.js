@@ -26,7 +26,7 @@ async function update(webContent, plugin) {
 }
 
 function UorI(webContent, plugin){
-  if(plugin.PIupdatemode){
+  if(plugin.PIinstall === 1){
     update(webContent, plugin)
   }else{
     install(webContent, plugin)
