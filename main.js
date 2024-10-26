@@ -1,4 +1,4 @@
-const closelists = ["qqsss"]
+const closelists = []
 
 async function init() {
   const app = document.querySelector(".app");
